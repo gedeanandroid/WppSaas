@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Omnichannel Chat Interface</title>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="custom-scrollbars">
+    /* Custom scrollbar for a cleaner UI look */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+<style data-purpose="animations">
+    @keyframes pulse-green {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+    .status-pulse {
+      animation: pulse-green 2s infinite;
+    }
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head>
+<body class="bg-[#F3F4F6] h-screen overflow-hidden font-sans text-slate-800">
+<!-- BEGIN: Main Layout -->
+<div class="flex h-full w-full max-w-[1600px] mx-auto shadow-2xl overflow-hidden bg-white"><aside class="w-16 flex flex-col items-center py-6 bg-white border-r border-slate-200 z-20">
+<div class="mb-8 text-indigo-600">
+<span class="material-symbols-outlined text-3xl font-bold">bubble_chart</span>
+</div>
+<nav class="flex flex-col gap-6 flex-1">
+<button class="text-slate-400 hover:text-indigo-600 transition-colors"><span class="material-symbols-outlined">dashboard</span></button>
+<button class="text-indigo-600 transition-colors bg-indigo-50 p-2 rounded-xl"><span class="material-symbols-outlined">chat</span></button>
+<button class="text-slate-400 hover:text-indigo-600 transition-colors"><span class="material-symbols-outlined">contacts</span></button>
+<button class="text-slate-400 hover:text-indigo-600 transition-colors"><span class="material-symbols-outlined">settings</span></button>
+</nav>
+<div class="mt-auto">
+<img alt="User" class="w-10 h-10 rounded-full border-2 border-slate-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs1AFQja4zsGqne1obZr82ZhguRObFva_2mBySJtIGYXiMuzRMuXQYepklZe0da8lvdCBrP80oAgW-_oCOztPCV41si3kL6FiZoYgWtqbmEZVMD7lOnp3pgu4I5K6UIc0yLMttw3qvpjpRYzmw7BlKgc13TthZYE-blXXFz7Z0iPsPuELQzDL39tdsLGl_zUhAuvgHezZ0HFeWm9gXpzicZBrjoVZOMrisE2tIIsCfwBin-zy-81_4B1hZWD7PRK8_jvABkIgG4Q"/>
+</div>
+</aside>
+<!-- BEGIN: Sidebar -->
+<aside class="w-[30%] min-w-[320px] flex flex-col border-r border-slate-200 bg-white">
+<!-- BEGIN: Sidebar Header -->
+<header class="h-16 flex items-center justify-between px-4 bg-[#f0f2f5] border-b border-slate-200" data-purpose="operator-profile"><div class="flex items-center gap-3">
+<h2 class="text-lg font-bold text-slate-900">Messages</h2>
+</div>
+<button class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined">edit_square</span></button></header>
+<!-- END: Sidebar Header -->
+<!-- BEGIN: Search Bar -->
+<div class="p-2 border-b border-slate-200 bg-white">
+<div class="relative flex items-center">
+<span class="absolute left-3 text-slate-400">
+<svg class="h-4 w-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-100 border-none rounded-lg text-sm focus:ring-1 focus:ring-teal-500 transition-all" placeholder="Search or start new chat" type="text"/>
+</div>
+</div>
+<!-- END: Search Bar -->
+<!-- BEGIN: Chat List -->
+<nav class="flex-1 overflow-y-auto custom-scrollbar bg-white">
+<!-- Active Chat Item -->
+<div class="flex items-center gap-3 px-4 py-4 bg-indigo-50/50 border-l-4 border-indigo-600 cursor-pointer" data-purpose="chat-item-active">
+<img alt="Customer Avatar" class="w-12 h-12 rounded-full flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByT29GTgb9uNcU7AAdQ0WgZ4_iXr0qtpw-IgLgW0JeI1jz3yvjLdyCZRm-RAjggXM8O6noYgWC-c72E_AKJ7dJU9RgxnX2Qoto960zqIREye0OftTrpnO5HqMM7dLUuWHnA2ZbdX81oWP0GkUXs4pOGnJBLvuSjGcM8aCnrRKe3jS711921ClVVCsdEkvdwpo1fD6LTV_7psJphQ0hIVK70teGj63aVC2MW6A-pWYoWv_2r6X2c1SsWYWOfL_4V4f9vC3gzjNq4w"/>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="font-bold text-sm truncate">Marcus Richardson</h3>
+<span class="text-[11px] text-indigo-600 font-semibold">10:45 AM</span>
+</div>
+<div class="flex justify-between items-center mt-0.5">
+<p class="text-xs text-slate-500 truncate">Thanks for the update on the delivery status...</p>
+<span class="bg-indigo-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+</div>
+</div>
+</div>
+<!-- Chat Item -->
+<div class="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 border-b border-slate-100 cursor-pointer transition-colors" data-purpose="chat-item">
+<img alt="Customer Avatar" class="w-12 h-12 rounded-full flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv6kdpRXpc6-NLqK4BabVvxOABz0tI613gPegK3DIFmjabMI-WHNKL7W13DFkHE6AM8izxYF791Rqe5RDh0imN_XvjfmJmShW1Jma-pT-sEqLxjBE5eBIWqlW62X_oVZFccnUmrd2GpDzyRCBMdQDLRMPIkBRX8dMsZ9UIRTi5o3kuuwONDPjKJB3aAyQB5w_xanH5tWvQGJ_I_EAyrUOgRVcGIy43gCCeBGagpgYAHUy0X6Zuh1iRFXWv78duLBsDWh5Dnbss3g"/>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="font-bold text-sm truncate">Elena Gilbert</h3>
+<span class="text-[11px] text-slate-400">09:12 AM</span>
+</div>
+<div class="flex justify-between items-center mt-0.5">
+<p class="text-xs text-slate-500 truncate">Can I change my subscription plan?</p>
+</div>
+</div>
+</div>
+<!-- Chat Item -->
+<div class="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 border-b border-slate-100 cursor-pointer transition-colors" data-purpose="chat-item">
+<img alt="Customer Avatar" class="w-12 h-12 rounded-full flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUgLa5CzKQFfhSla8YJzvHCFz6i01kmG4JR4G0YveFVIejB18fN3eRFwFn-D9gJaTYLir-COdUJc0_eAXhCl3uVFHOnvcVbRHW8AXdxIcsl6y_SGSdqlppEY9ahKc5AkfjuZveKd8tHtnBF7pDEf06q7z7K6Xxj0ueBIrQZIsk3QKIf9mXmiyU_zW_Uaov7xkB3cmoEPFTUpLNnVQ8njEvZ4EdX9CYWvZoNiF0yvsPmWCu5icnl5jiEOEv2UqQoWt4H_7VLAzEsg"/>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="font-bold text-sm truncate">Jonathan Wick</h3>
+<span class="text-[11px] text-slate-400">Yesterday</span>
+</div>
+<div class="flex justify-between items-center mt-0.5">
+<p class="text-xs text-slate-500 truncate italic">Sent a document</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- END: Chat List -->
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: Main Chat Area -->
+<main class="flex-1 flex flex-col bg-white relative">
+<!-- BEGIN: Chat Header -->
+<header class="relative z-10 h-16 flex items-center justify-between px-6 bg-white border-b border-slate-100" data-purpose="main-chat-header">
+<div class="flex items-center gap-3">
+<img alt="Customer Avatar" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7ruPNwBgqhPchBYK9DDXVQikEOTaCjN4j_THO4rgtV8xwJZLauMzN6zL1-YriRZukJY2gL598ay3Z43froOW3lVXC3c_z46kWzctzO3clj1pddlSDF9x1alZqzsF3tF0D972FsuldWihrWD6Voj47qsnpP6p_RfRn4f-g1hYiObfDh1flmenq_2ae9mY_Oa1wKT8Es2oD-sl4u5g1GRymSmVZOhMM038mJokJQbtAjlLFm8ClWhOVWruujUpGCTk5gSBi_8xzCQ"/>
+<div>
+<h2 class="text-sm font-semibold leading-tight">Marcus Richardson</h2>
+<p class="text-[11px] text-slate-500">+1 (555) 000-1234</p>
+</div>
+</div>
+<div class="flex items-center gap-5 text-slate-600">
+<button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-md shadow-indigo-200 text-xs font-semibold transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">check_circle</span> Finish Chat
+</button>
+<button class="hover:text-slate-900">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</header>
+<!-- END: Chat Header -->
+<!-- BEGIN: Chat History -->
+<section class="relative z-10 flex-1 overflow-y-auto p-8 flex flex-col gap-6 custom-scrollbar" data-purpose="chat-messages">
+<!-- Customer Message -->
+<div class="flex flex-col items-start max-w-[80%]">
+<div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none shadow-sm relative">
+<p class="text-sm leading-relaxed">Hello, I'm checking the status of my order #8841. Is it shipped yet?</p>
+<span class="block text-[10px] text-slate-400 mt-1 text-right">10:40 AM</span>
+</div>
+</div>
+<!-- Attendant Message -->
+<div class="flex flex-col items-end self-end max-w-[80%]">
+<div class="bg-indigo-600 p-4 rounded-2xl rounded-tr-none shadow-lg shadow-indigo-100 relative text-white">
+<p class="text-sm leading-relaxed">Hello Marcus! Let me check that for you right now. Just a moment please.</p>
+<span class="flex items-center justify-end gap-1 text-[10px] text-indigo-100 mt-2">
+              10:42 AM
+              <svg class="h-3 w-3 text-white opacity-80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"></polyline></svg>
+</span>
+</div>
+</div>
+<!-- Date Separator -->
+<div class="flex justify-center my-2">
+<span class="bg-slate-200 text-slate-500 text-[11px] font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">Today</span>
+</div>
+<!-- Attendant Message with Visual Placeholder -->
+<div class="flex flex-col items-end self-end max-w-[80%]">
+<div class="bg-indigo-600 p-4 rounded-2xl rounded-tr-none shadow-lg shadow-indigo-100 relative text-white">
+<div class="mb-2 rounded overflow-hidden border border-[#bedbaf]">
+<img alt="Shipping Receipt" class="max-w-full h-auto block" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNM4wKdj466k4CGtWouefhUiwB77pN6NfKpCtorJdwE_fr0AqQH1cT6df0SGDryWe_l2k-EJuD0cN1AQsH7ULZHuHopWCRIFgwpl1x17Uq-7w9bjMkEBa6uC1h9lObKa9JZd2wTmbqKvUxGeytqqc2e0TkRbQUUo404JCnODVkJpZz1Li8FpjE6rGPoyLlCPPl1oUjEhESj-6wRYjpWlM7MHaeMlWvV-MSToFlHFLQ5ZmpyXfDQNxyuM48rjEDUIlou6_yAT10eg"/>
+</div>
+<p class="text-sm px-1">Your order has been picked up by the carrier! Here is the copy of your digital receipt.</p>
+<span class="flex items-center justify-end gap-1 text-[10px] text-indigo-100 mt-2">
+              10:44 AM
+              <svg class="h-3 w-3 text-white opacity-80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"></polyline></svg>
+</span>
+</div>
+</div>
+<!-- Customer Message -->
+<div class="flex flex-col items-start max-w-[80%]">
+<div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none shadow-sm relative">
+<p class="text-sm leading-relaxed">Thanks for the update on the delivery status! That was quick. Great service.</p>
+<span class="block text-[10px] text-slate-400 mt-1 text-right">10:45 AM</span>
+</div>
+</div>
+</section>
+<!-- END: Chat History -->
+<!-- BEGIN: Footer / Message Input -->
+<footer class="relative z-10 p-4 bg-white border-t border-slate-100 flex items-center gap-4" data-purpose="chat-footer">
+<button class="p-2 text-slate-500 hover:text-slate-700 transition-colors" title="Attach Files">
+<svg class="h-6 w-6 transform rotate-45" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="flex-1">
+<textarea class="w-full px-4 py-3 bg-slate-50 border-none rounded-xl text-sm focus:ring-1 focus:ring-indigo-500 resize-none max-h-32 custom-scrollbar transition-all" placeholder="Type a message" rows="1"></textarea>
+</div>
+<button class="p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-95 flex items-center justify-center">
+<svg class="h-5 w-5 transform translate-x-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</footer>
+<!-- END: Footer -->
+</main>
+<!-- END: Main Chat Area -->
+</div>
+<!-- END: Main Layout -->
+</body></html>
