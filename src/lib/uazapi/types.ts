@@ -29,27 +29,27 @@ export interface UazapiWebhookPayload {
   event: string
   instance: string
   data: {
-    key: {
+    sender: string
+    text?: string
+    fromMe?: boolean
+    isGroup?: boolean
+    pushName?: string
+    messageTimestamp?: number
+    
+    // Fallback/Legacy fields in case of hybrid payloads
+    key?: {
       remoteJid: string
       fromMe: boolean
       id: string
     }
-    message?: {
-      conversation?: string
-      imageMessage?: { url?: string; caption?: string }
-      videoMessage?: { url?: string; caption?: string }
-      audioMessage?: { url?: string }
-      documentMessage?: { url?: string; fileName?: string }
-    }
-    messageTimestamp?: number
-    pushName?: string
-    status?: string
+    message?: any
   }
 }
 
 export interface UazapiSendTextPayload {
   number: string
   text: string
+  linkPreview?: boolean
 }
 
 export interface UazapiSendMediaPayload {

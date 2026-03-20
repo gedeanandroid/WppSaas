@@ -45,14 +45,14 @@ export class UazapiClient {
   }
 
   async sendText(payload: UazapiSendTextPayload): Promise<any> {
-    return this.request<any>('/message/sendText', {
+    return this.request<any>('/send/text', {
       method: 'POST',
       body: JSON.stringify(payload),
     })
   }
 
   async sendMedia(payload: UazapiSendMediaPayload): Promise<any> {
-    return this.request<any>('/message/sendMedia', {
+    return this.request<any>('/send/media', {
       method: 'POST',
       body: JSON.stringify(payload),
     })

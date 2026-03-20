@@ -15,6 +15,12 @@ function extractMessageContent(data: UazapiWebhookPayload['data']): {
   mediaUrl: string | null
   mediaType: string | null
 } {
+  // Uazapi V2 format
+  if (data.text) {
+    return { content: data.text, mediaUrl: null, mediaType: null }
+  }
+
+  // Fallback to V1 / Baileys format
   const msg = data.message
   if (!msg) return { content: null, mediaUrl: null, mediaType: null }
 
@@ -38,6 +44,11 @@ function extractMessageContent(data: UazapiWebhookPayload['data']): {
 }
 
 export async function handleWebhook(channelId: string, payload: UazapiWebhookPayload) {
+  if (payload.event !== 'messages' && payload.event !== 'messages.upsert') {
+    console.log(`[WEBHOOK] Ignorando evento não suportado: ${payload.event}`)
+    return
+  }
+
   // Buscar canal para obter organization_id
   const { data: channel, error: channelError } = await supabaseAdmin
     .from('channels')
@@ -50,8 +61,14 @@ export async function handleWebhook(channelId: string, payload: UazapiWebhookPay
     return
   }
 
-  const phone = extractPhoneNumber(payload.data.key.remoteJid)
-  const isFromMe = payload.data.key.fromMe
+  const senderId = payload.data.sender || payload.data.key?.remoteJid
+  if (!senderId) {
+    console.log('[WEBHOOK] Sem remetente no payload', JSON.stringify(payload.data))
+    return
+  }
+
+  const phone = extractPhoneNumber(senderId)
+  const isFromMe = payload.data.fromMe ?? (payload.data.key?.fromMe || false)
   const { content, mediaUrl, mediaType } = extractMessageContent(payload.data)
 
   if (!content && !mediaUrl) return // mensagem vazia
