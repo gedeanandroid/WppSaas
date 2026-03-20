@@ -58,14 +58,19 @@ export class UazapiClient {
     })
   }
 
-  async setWebhook(url: string): Promise<void> {
-    await this.request<void>('/instance/setWebhook', {
+  async setWebhook(url: string): Promise<any> {
+    return this.request<any>('/webhook', {
       method: 'POST',
-      body: JSON.stringify({ url }),
+      body: JSON.stringify({
+        enabled: true,
+        url,
+        events: ['messages', 'connection'],
+        excludeMessages: ['wasSentByApi'],
+      }),
     })
   }
 
   async getWebhook(): Promise<any> {
-    return this.request<any>('/instance/getWebhook')
+    return this.request<any>('/webhook')
   }
 }
