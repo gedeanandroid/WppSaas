@@ -147,7 +147,7 @@
 
 | Propriedade | Valor |
 |-------------|-------|
-| **Font Family** | `font-sans` (Tailwind default: Inter, system-ui fallback) |
+| **Font Family** | `font-sans` (Tailwind default: Plus Jakarta Sans, system-ui fallback) |
 | **Line Height** | `leading-relaxed` (`1.625`) nos balões, `leading-tight` (`1.25`) nos nomes |
 
 ---
