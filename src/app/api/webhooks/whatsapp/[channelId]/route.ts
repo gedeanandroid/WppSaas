@@ -8,14 +8,26 @@ export async function POST(
 ) {
   try {
     const { channelId } = await params
-    const payload: UazapiWebhookPayload = await request.json()
+    const body = await request.text()
+    
+    console.log(`[WEBHOOK] Received for channel ${channelId}:`, body.substring(0, 500))
+    
+    let payload: UazapiWebhookPayload
+    try {
+      payload = JSON.parse(body)
+    } catch {
+      console.error('[WEBHOOK] Invalid JSON body')
+      return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+    }
 
     // Processar em background (não bloqueia a resposta)
-    handleWebhook(channelId, payload).catch(console.error)
+    handleWebhook(channelId, payload).catch(err => {
+      console.error('[WEBHOOK] Handler error:', err)
+    })
 
     return NextResponse.json({ status: 'ok' })
   } catch (error) {
-    console.error('Webhook error:', error)
+    console.error('[WEBHOOK] Route error:', error)
     return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
   }
 }

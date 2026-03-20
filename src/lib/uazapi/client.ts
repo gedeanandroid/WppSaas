@@ -61,7 +61,11 @@ export class UazapiClient {
   async setWebhook(url: string): Promise<void> {
     await this.request<void>('/instance/setWebhook', {
       method: 'POST',
-      body: JSON.stringify({ webhookUrl: url }),
+      body: JSON.stringify({ url }),
     })
+  }
+
+  async getWebhook(): Promise<any> {
+    return this.request<any>('/instance/getWebhook')
   }
 }
